@@ -1,9 +1,14 @@
 const express=require("express");
+const Product = require('./models/product');
 const User =require("./models/user");
 require("./db/conn");
+const auth=require("./middleware/auth");
 const app=express();
 const port=process.env.PORT || 8000;
 app.use(express.json());
+console.log(auth.user23);
+
+//signup
 app.post("/signup",async(req,res)=>
 {
     try
@@ -18,6 +23,8 @@ app.post("/signup",async(req,res)=>
     }
     
 })
+
+//login and token generate
 app.post("/login",async(req,res)=>
 {
     const name=req.body.username;
@@ -42,6 +49,23 @@ app.post("/login",async(req,res)=>
     }
     
 })
+
+//upload
+app.post("/upload",auth, async(req, res) => {
+    try
+    {
+        const temp=await Product.create(req.body); 
+        auth.user23.cart.push(temp);
+        await  auth.user23.save();
+        res.status(201).send("uploading succesful"); 
+    }
+    catch(error)
+    {
+        res.status(201).send("Not upload"); 
+    }
+  
+})
+
 app.listen(port,()=>
 {
     console.log(`connected at ${port}`);

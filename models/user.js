@@ -1,6 +1,9 @@
+const Product = require('./product');
 const mongoose=require("mongoose");
 const validator=require("validator");
 const jwt=require('jsonwebtoken')
+
+require('dotenv').config()
 const User1=new mongoose.Schema({
     username:{
         type:String,
@@ -37,14 +40,20 @@ const User1=new mongoose.Schema({
     mobile:{
         type:Number,
         min:10
-    }
-})
+    },
+    cart: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'Product'
+        }
+    ]
+});
 
 User1.methods.generateAuthToken=async function()
 {
     try
     {
-        const token=jwt.sign({_id:this._id.toString()},"mynameisAshishkumarandiamnotterririst");
+        const token=jwt.sign({_id:this._id.toString()},process.env.SECRET_KEY);
 
         return token;
     }
@@ -54,4 +63,5 @@ User1.methods.generateAuthToken=async function()
     }
 }
 const User=new mongoose.model("User",User1);
+
 module.exports=User;
