@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('./models/product');
+const Product = require('../../models/product');
 var fs = require('fs');
-const auth=require("./middleware/auth");
+const auth=require("../../middleware/auth");
 var multer  = require('multer')
 var upload = multer({ dest: 'uploads/' })
 
@@ -24,11 +24,10 @@ router.post("/upload",auth, async(req, res) => {
 
 
 // delete music file
-route.delete('/products/:id',auth, async  (req, res, ) =>{
+router.delete('/products/:id',auth, async  (req, res, ) =>{
    
     try
     {
-        console.log("p");
         await Product.findByIdAndDelete(req.params.id);
         auth.user23.cart.remove(req.params.id);
         res.status(201).send("delete");
@@ -81,4 +80,5 @@ router.post('/products',auth, upload.single('avatar'), async function (req, res,
       result.push('0x'+fileData[i]+''+fileData[i+1])
     return result;
 }
+
 module.exports = router;
