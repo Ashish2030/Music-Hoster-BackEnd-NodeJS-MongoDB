@@ -5,9 +5,9 @@ const jwt=require('jsonwebtoken')
 
 require('dotenv').config()
 const User1=new mongoose.Schema({
-    username:{
+    userName:{
         type:String,
-        required:true,
+         required:true,
         minlength:3
     },
     password:{

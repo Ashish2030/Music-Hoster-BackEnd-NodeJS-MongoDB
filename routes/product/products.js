@@ -55,20 +55,23 @@ router.post('/products',auth, upload.single('avatar'), async function (req, res,
     {
         var filePath=req.file.path;
         result = getByteArray(filePath)
-        console.log(typeof(result));
+        
         const a={
             "title":req.body.title,
-            "imq":result,
+            "img":result,
             "desc":req.body.desc
         }
         const temp=await Product.create(a); 
-        auth.user23.cart.push(temp);
-        await  auth.user23.save();
+        
+        var x=auth.user23;
+        x.cart.push(temp);
+        console.log(x);
+           await x.save();
         res.status(201).send("uploading succesful"); 
     }
     catch(error)
     {
-        res.status(201).send("Not upload"); 
+        res.status(400).send(error); 
     }
   })
 

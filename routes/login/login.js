@@ -13,7 +13,7 @@ router.post("/login",async(req,res)=>
     const pass=req.body.password;
     try
     {
-      const user123=await User.findOne({username:name})
+      const user123=await User.findOne({userName:name})
       if(user123.password==pass)
       {
       const token =await user123.generateAuthToken();
