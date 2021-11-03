@@ -20,6 +20,6 @@
     "multer-gridfs-storage": "^5.0.0",
     "nodemon": "^2.0.12",
     "to-byte-array": "^1.0.2",
-    "validator": "^13.6.0"
+    "validator": "^13.7.0"
   }
 }
